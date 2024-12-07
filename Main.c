@@ -157,17 +157,35 @@ void BuscaUsuario(Arvore *arvore, ListaFilmes *filmes){
 
 // Função que mostra todos os filmes cadastrados
 void ListarFilmes(Arvore *arvore, ListaFilmes *filmes){
-
+    ImprimirFilmes(filmes);
 }
 
 // Função que busca um filme específico
 void BuscaFilme(Arvore *arvore, ListaFilmes *filmes){
-
+    char titulo[100];
+    printf("Insira o nome do filme a buscar: ");
+    while (getchar() != '\n'); // Limpar o buffer de entrada 
+    fgets(titulo, sizeof(titulo), stdin);
+    titulo[strcspn(titulo, "\n")] = '\0'; // Remove o '\n' do final da string
+    if(EstaNaLista(filmes, titulo) == 1) {
+        printf("Este filme esta na lista!");
+    } else {
+        printf("Este filme nao esta na lista!");
+    }
 }
 
 // Função que gera um .txt com as informações necessárias
-void ProduzirArquivo(Arvore *arvore, ListaFilmes *filmes){
+void ProduzirArquivo(Arvore *arvore, ListaFilmes *filmes) {
+    FILE *arquivo = fopen("tree.txt", "w");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        return;
+    }
+    ArquivarFilmes(filmes, arquivo);
+    ArquivarArvore(arvore, arquivo);
 
+    fclose(arquivo);
+    printf("Arquivo produzido com sucesso!");
 }
 
 // Função que mostra os dados tecnicos da árvore

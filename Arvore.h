@@ -24,5 +24,7 @@ void ImprimirFilmesUsuario(Arvore *A, int nusp);
 void ImprimirUsuarios(Arvore *A);
 void ImprimirAux(No *n);
 void EstaNaArvore(Arvore *A, int nusp);
+void ArquivarArvore(Arvore *A, FILE *file);
+void ArquivarRecursivo(No *raiz, FILE *file);
 
 #endif

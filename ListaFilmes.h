@@ -28,5 +28,8 @@ void InicializarListaFilmes(ListaFilmes *filmes);
 void InicializarListaPonteiros(ListaPonteiros *ponteiros);
 void CadastrarFilme(ListaFilmes *lista, char *titulo);
 Bloco *BuscarFilme(ListaFilmes *filmes, char *titulo);
+void ImprimirFilmes(ListaFilmes *filmes);
+int EstaNaLista(ListaFilmes *filmes, char *titulo);
+void ArquivarFilmes(ListaFilmes *filmes, FILE *file);
 
 #endif

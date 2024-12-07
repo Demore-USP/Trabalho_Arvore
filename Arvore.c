@@ -166,3 +166,30 @@ void EstaNaArvore(Arvore *A, int nusp) {
     }
 }
 
+void ArquivarArvore(Arvore *A, FILE *file) {
+    ArquivarRecursivo(A->raiz, file);
+}
+
+void ArquivarRecursivo(No *raiz, FILE *file) {
+    if (raiz == NULL) {
+        return;
+    }
+
+    // Percorrer a árvore em ordem (esquerda, raiz, direita)
+    ArquivarRecursivo(raiz->esq, file);
+
+    // Escrever o valor do nó no arquivo
+    int tamanho = strlen(raiz->usuario) + 1;
+    char *temp = (char *)malloc(tamanho * sizeof(char)); // Aloca memória para temp
+    if (temp == NULL) {
+        printf("Erro de alocação de memória!\n");
+        exit(1);
+    }
+    strcpy(temp, raiz->usuario);
+    fprintf(file, "%d\n", raiz->nusp);
+    fprintf(file, "%s\n", temp);
+
+    free(temp); // Libera a memória alocada para evitar vazamentos
+
+    ArquivarRecursivo(raiz->dir, file);
+}

@@ -69,3 +69,39 @@ Bloco *BuscarFilme(ListaFilmes *filmes, char *titulo) {
 
     return NULL; 
 }
+
+void ImprimirFilmes(ListaFilmes *filmes) {
+    Bloco *aux = filmes->ini;
+    int contador = 0;
+    while(aux != NULL) {
+        contador++;
+        aux = aux->prox;
+    }
+    aux = filmes->ini;
+    printf("Listagem completa: ");
+    for(int i=0; i<contador; i++) {
+        printf("%s", aux->titulo);
+        aux = aux->prox;
+        if(i<(contador-1)) 
+            printf(", ");
+    }
+}
+
+int EstaNaLista(ListaFilmes *filmes, char *titulo) {
+    Bloco *aux = filmes->ini;
+    while(aux != NULL) {
+        if(strcmp(aux->titulo, titulo) == 0) {
+            return (1);
+        }
+        aux = aux->prox;
+    }
+    return (0);
+}
+
+void ArquivarFilmes(ListaFilmes *filmes, FILE *file) {
+    Bloco *aux = filmes->ini;
+    while(aux != NULL) {
+        fprintf(file, "%s\n", aux->titulo);
+        aux = aux->prox;
+    }
+}
