@@ -1,7 +1,0 @@
-filmes:
-amigao
-avengers
-N° USP: 1
-Nome: julio
-N° USP: 2
-Nome: fuganti

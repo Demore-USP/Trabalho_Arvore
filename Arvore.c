@@ -363,8 +363,9 @@ void RemoverNo(No **raiz, int nusp) {
 
 void LiberarListaPonteiros(ListaPonteiros *lista) {
     BlocoPonteiro *atual = lista->ini;
+    BlocoPonteiro *temp= NULL;
     while (atual != NULL) {
-        BlocoPonteiro *temp = atual;
+        temp = atual;
         atual = atual->prox;
         free(temp); // Liberando o nó da lista de ponteiros
     }
@@ -378,7 +379,6 @@ void Remover(Arvore *A, int nusp) {
 
 void ExcluirArvore(Arvore *A) {
     LiberaMemoria(A->raiz);
-    free(A);
 }
 
 void LiberaMemoria(No *n) {

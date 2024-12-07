@@ -14,6 +14,7 @@ void ProduzirArquivo(Arvore *arvore, ListaFilmes *filmes);
 void DadosTecnicos(Arvore *arvore, ListaFilmes *filmes);
 void RemoverCadastro(Arvore *arvore, ListaFilmes *filmes);
 void AdicionarFilme(Arvore *arvore, ListaFilmes *filmes);
+void Encerrar(Arvore *arvore, ListaFilmes *filmes);
 
 int main (void){
 

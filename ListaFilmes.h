@@ -31,5 +31,6 @@ Bloco *BuscarFilme(ListaFilmes *filmes, char *titulo);
 void ImprimirFilmes(ListaFilmes *filmes);
 int EstaNaLista(ListaFilmes *filmes, char *titulo);
 void ArquivarFilmes(ListaFilmes *filmes, FILE *file);
+void ExcluirFilmes(ListaFilmes *filmes);
 
 #endif

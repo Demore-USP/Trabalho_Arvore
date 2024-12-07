@@ -36,5 +36,7 @@ No* EncontrarMinimo(No *raiz);
 void RemoverNo(No **raiz, int nusp);
 void LiberarListaPonteiros(ListaPonteiros *lista);
 void Remover(Arvore *A, int nusp);
+void ExcluirArvore(Arvore *A);
+void LiberaMemoria(No *n);
 
 #endif
