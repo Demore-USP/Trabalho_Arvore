@@ -13,6 +13,7 @@ void BuscaFilme(Arvore *arvore, ListaFilmes *filmes);
 void ProduzirArquivo(Arvore *arvore, ListaFilmes *filmes);
 void DadosTecnicos(Arvore *arvore, ListaFilmes *filmes);
 void RemoverCadastro(Arvore *arvore, ListaFilmes *filmes);
+void AdicionarFilme(Arvore *arvore, ListaFilmes *filmes);
 
 int main (void){
 
@@ -23,7 +24,7 @@ int main (void){
     InicializarListaFilmes(&filmes);
     int opcao = 0;
 
-    while(opcao != 9){
+    while(opcao != 10){
         // Tela de opções do usuário
         printf("\n");
         printf("      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
@@ -47,39 +48,42 @@ int main (void){
         printf("~~~~~~~~~~~~~~~~~~~~~~         ~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~        ~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        printf("| 9) Alterar cadastro |        | 10) Finalizar programa |\n");
+        printf("| 9) Adicionar filme  |        | 10) Finalizar programa |\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~        ~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("\n");
         printf("Digite a opcao desejada: ");
         scanf("%d", &opcao);
+        printf("\n\n");
 
         if (opcao == 1){
-        CriarCadastro(&arvore, &filmes);
+            CriarCadastro(&arvore, &filmes);
 
         } else if (opcao == 2){
-        ListarUsuarios(&arvore, &filmes);
+            ListarUsuarios(&arvore, &filmes);
 
         } else if (opcao == 3){
-        BuscaUsuario(&arvore, &filmes);
+            BuscaUsuario(&arvore, &filmes);
 
         } else if (opcao == 4){
-        ListarFilmes(&arvore, &filmes);
+            ListarFilmes(&arvore, &filmes);
 
         } else if (opcao == 5){
-        BuscaFilme(&arvore, &filmes);
+            BuscaFilme(&arvore, &filmes);
 
         } else if (opcao == 6){
-        ProduzirArquivo(&arvore, &filmes);
+            ProduzirArquivo(&arvore, &filmes);
 
         } else if (opcao == 7){
-        DadosTecnicos(&arvore, &filmes);
+            DadosTecnicos(&arvore, &filmes);
 
         } else if (opcao == 8){
-        RemoverCadastro(&arvore, &filmes);
+            RemoverCadastro(&arvore, &filmes);
 
         } else if (opcao == 9){
-            //lógica se necessário
-            break;
+            AdicionarFilme(&arvore, &filmes);
+
+        } else if (opcao == 10){
+            Encerrar(&arvore, &filmes);
 
         } else {
             printf("Opcao invalida! Por favor, digite uma das opcoes disponiveis!\n");
@@ -190,15 +194,49 @@ void ProduzirArquivo(Arvore *arvore, ListaFilmes *filmes) {
 
 // Função que mostra os dados tecnicos da árvore
 void DadosTecnicos(Arvore *arvore, ListaFilmes *filmes){
-
+    printf("Numero de nos da arvore: %d\n", ContarUsuarios(arvore));
+    printf("Altura da arvore: %d\n", AcharAltura(arvore));
+    printf("Maior diferenca entre alturas: %d\n", MaiorDiferenca(arvore));
 }
 
 // Função que remove um usuário da árvore 
 void RemoverCadastro(Arvore *arvore, ListaFilmes *filmes){
-
+    int nusp;
+    printf("Quem deseja remover: ");
+    scanf("%d", &nusp);
+    Remover(arvore, nusp);
+    printf("Usuario removido com sucesso!");
 }
 
+void AdicionarFilme(Arvore *arvore, ListaFilmes *filmes) {
+    int nusp, contador = 0;
+    char titulo[100];
+    printf("Entre com o numero USP do usuario que deseja adicionar filmes a sua lista: ");
+    scanf("%d", &nusp);
+    while (getchar() != '\n'); // Limpar o buffer de entrada
 
+    while(1) {
+        printf("Digite 'sair' para finalizar\n");
+        printf("Entre com os filmes que deseja adicionar: ");
+
+        fgets(titulo, sizeof(titulo), stdin);
+        titulo[strcspn(titulo, "\n")] = '\0'; // Remove o '\n' do final da string 
+
+        if (strcmp(titulo, "sair") == 0) {
+            printf("Voce adicionou %d filmes a sua lista", contador);
+            return;
+        }
+
+        // Insere o filme na lista geral e na lista do usuário
+        CadastrarFilme(filmes, titulo);
+        InserirFilmeUsuario(arvore, filmes, nusp, titulo, &contador);
+    }
+}
+
+void Encerrar(Arvore *arvore, ListaFilmes *filmes) {
+    ExcluirArvore(arvore);
+    ExcluirFilmes(filmes);
+}
 
 
 

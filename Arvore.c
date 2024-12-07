@@ -158,7 +158,7 @@ void EstaNaArvore(Arvore *A, int nusp) {
         if(resposta == 'S' || resposta == 's'){
             printf("Nome: %s\n", aux->usuario);
             printf("Numero USP: %d\n", aux->nusp);
-            printf("Filmes favoritos: ");
+            printf("Filmes favoritos:\n");
             ImprimirFilmesUsuario(A, nusp);
         } else {
             return;
@@ -167,6 +167,7 @@ void EstaNaArvore(Arvore *A, int nusp) {
 }
 
 void ArquivarArvore(Arvore *A, FILE *file) {
+    fprintf(file, "Usuarios:\n", NULL);
     ArquivarRecursivo(A->raiz, file);
 }
 
@@ -174,7 +175,7 @@ void ArquivarRecursivo(No *raiz, FILE *file) {
     if (raiz == NULL) {
         return;
     }
-
+    
     // Percorrer a árvore em ordem (esquerda, raiz, direita)
     ArquivarRecursivo(raiz->esq, file);
 
@@ -186,10 +187,166 @@ void ArquivarRecursivo(No *raiz, FILE *file) {
         exit(1);
     }
     strcpy(temp, raiz->usuario);
-    fprintf(file, "%d\n", raiz->nusp);
-    fprintf(file, "%s\n", temp);
+    fprintf(file, "Nome: %s // ", temp);
+    fprintf(file, "N° USP: %d\n", raiz->nusp);
+    
 
     free(temp); // Libera a memória alocada para evitar vazamentos
 
     ArquivarRecursivo(raiz->dir, file);
+}
+
+int ContarUsuarios(Arvore *A) {
+    int contador = 0;
+    ContarAux(A->raiz, &contador);
+    return (contador);
+}
+
+void ContarAux(No *n, int *contador) {
+    if(n != NULL) {
+        ContarAux(n->esq, contador);
+        (*contador)++;
+        ContarAux(n->dir, contador);
+    }
+}
+
+int AcharAltura(Arvore *A) {
+    return (AlturaAux(A->raiz)-1);
+}
+
+int AlturaAux(No *n) {
+    int alt_esq, alt_dir;
+    if(n == NULL)
+        return (0);
+    else {
+        alt_esq = 1 + AlturaAux(n->esq);
+        alt_dir = 1 + AlturaAux(n->dir);
+        if(alt_esq > alt_dir)
+            return (alt_esq);
+        else
+            return (alt_dir);
+    }
+}
+
+int MaiorDiferenca(Arvore *A) {
+    int contador = 0;
+    DiferencaAux(A->raiz, &contador);
+    return (contador);
+}
+
+// Função recursiva para calcular a maior diferença de alturas entre subárvores
+int DiferencaAux(No *raiz, int *contador) {
+    if (raiz == NULL) {
+        return 0; // Se a árvore for vazia, não há diferença
+    }
+
+    // Calcula as alturas das subárvores esquerda e direita
+    int alturaEsq = AlturaAux(raiz->esq);
+    int alturaDir = AlturaAux(raiz->dir);
+
+    // Calcula a diferença absoluta
+    int diferenca = abs(alturaEsq - alturaDir);
+
+    // Atualiza a maior diferença encontrada
+    if (diferenca > *contador) {
+        *contador = diferenca;
+    }
+
+    // Continua verificando nos nós filhos
+    DiferencaAux(raiz->esq, contador);
+    DiferencaAux(raiz->dir, contador);
+
+    return (*contador);
+}
+
+No* EncontrarMinimo(No *raiz) {
+    while (raiz->esq != NULL) {
+        raiz = raiz->esq;
+    }
+    return raiz;
+}
+
+// Função para remover um nó da árvore
+void RemoverNo(No **raiz, int nusp) {
+    if (*raiz == NULL) {
+        printf("Numero USP %d nao encontrado na arvore\n", nusp);
+        return;
+    }
+
+    if (nusp < (*raiz)->nusp) {
+        // Busca na subárvore esquerda
+        RemoverNo(&(*raiz)->esq, nusp);
+    } else if (nusp > (*raiz)->nusp) {
+        // Busca na subárvore direita
+        RemoverNo(&(*raiz)->dir, nusp);
+    } else {
+        // Encontrou o nó a ser removido
+
+        // Libera a lista de ponteiros de filmes
+        LiberarListaPonteiros(&(*raiz)->filmes);
+
+        if ((*raiz)->esq == NULL && (*raiz)->dir == NULL) {
+            // Caso 1: Nó folha
+            free((*raiz)->usuario);
+            free(*raiz);
+            *raiz = NULL;
+        } else if ((*raiz)->esq == NULL) {
+            // Caso 2: Um filho (direita)
+            No *temp = (*raiz)->dir;
+            free((*raiz)->usuario);
+            free(*raiz);
+            *raiz = temp;
+        } else if ((*raiz)->dir == NULL) {
+            // Caso 2: Um filho (esquerda)
+            No *temp = (*raiz)->esq;
+            free((*raiz)->usuario);
+            free(*raiz);
+            *raiz = temp;
+        } else {
+            // Caso 3: Dois filhos
+            No *temp = EncontrarMinimo((*raiz)->dir);
+
+            // Copia os dados do nó substituto
+            free((*raiz)->usuario); // Libera a string do nome
+            (*raiz)->usuario = strdup(temp->usuario);
+            (*raiz)->nusp = temp->nusp;
+
+            // Libera a lista de filmes atual e copia a nova lista
+            LiberarListaPonteiros(&(*raiz)->filmes);
+            (*raiz)->filmes = temp->filmes; // Transferimos a lista de filmes
+
+            // Remove recursivamente o nó substituto
+            RemoverNo(&(*raiz)->dir, temp->nusp);
+        }
+    }
+}
+
+void LiberarListaPonteiros(ListaPonteiros *lista) {
+    BlocoPonteiro *atual = lista->ini;
+    while (atual != NULL) {
+        BlocoPonteiro *temp = atual;
+        atual = atual->prox;
+        free(temp); // Liberando o nó da lista de ponteiros
+    }
+    lista->ini = NULL;
+    lista->fim = NULL;
+}
+
+void Remover(Arvore *A, int nusp) {
+    RemoverNo(&A->raiz, nusp);
+}
+
+void ExcluirArvore(Arvore *A) {
+    LiberaMemoria(A->raiz);
+    free(A);
+}
+
+void LiberaMemoria(No *n) {
+    if(n != NULL) {
+        LiberaMemoria(n->esq);
+        LiberaMemoria(n->dir);
+        free(n->usuario);
+        LiberarListaPonteiros(&n->filmes);
+        free(n);
+    }
 }

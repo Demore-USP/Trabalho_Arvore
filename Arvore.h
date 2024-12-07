@@ -26,5 +26,15 @@ void ImprimirAux(No *n);
 void EstaNaArvore(Arvore *A, int nusp);
 void ArquivarArvore(Arvore *A, FILE *file);
 void ArquivarRecursivo(No *raiz, FILE *file);
+int ContarUsuarios(Arvore *A);
+void ContarAux(No *n, int *contador);
+int AcharAltura(Arvore *A);
+int AlturaAux(No *n);
+int MaiorDiferenca(Arvore *A);
+int DiferencaAux(No *raiz, int *contador);
+No* EncontrarMinimo(No *raiz);
+void RemoverNo(No **raiz, int nusp);
+void LiberarListaPonteiros(ListaPonteiros *lista);
+void Remover(Arvore *A, int nusp);
 
 #endif

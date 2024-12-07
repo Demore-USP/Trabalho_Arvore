@@ -100,8 +100,20 @@ int EstaNaLista(ListaFilmes *filmes, char *titulo) {
 
 void ArquivarFilmes(ListaFilmes *filmes, FILE *file) {
     Bloco *aux = filmes->ini;
-    while(aux != NULL) {
-        fprintf(file, "%s\n", aux->titulo);
+    fprintf(file, "Filmes:\n", NULL);
+    while (aux != NULL) {
+        fprintf(file, "-%s\n", aux->titulo);
         aux = aux->prox;
+    }
+}
+
+void ExcluirFilmes(ListaFilmes *filmes) {
+    Bloco *aux = filmes->ini;
+    Bloco *temp = NULL;
+    while(aux != NULL) {
+        temp = aux;
+        aux = aux->prox;
+        free(temp->titulo);
+        free(temp);
     }
 }
