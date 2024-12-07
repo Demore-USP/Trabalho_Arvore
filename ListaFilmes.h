@@ -26,5 +26,7 @@ typedef struct {
 // Declarações das funções
 void InicializarListaFilmes(ListaFilmes *filmes);
 void InicializarListaPonteiros(ListaPonteiros *ponteiros);
+void CadastrarFilme(ListaFilmes *lista, char *titulo);
+Bloco *BuscarFilme(ListaFilmes *filmes, char *titulo);
 
 #endif

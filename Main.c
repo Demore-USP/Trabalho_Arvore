@@ -4,12 +4,12 @@
 #include "ListaFilmes.h"
 #include "Arvore.h"
 
-// Funções utilizadas:
+// Funções utilizadas
 void CriarCadastro(Arvore *arvore, ListaFilmes *filmes);
 void ListarUsuarios(Arvore *arvore, ListaFilmes *filmes);
-void BuscarUsuario(Arvore *arvore, ListaFilmes *filmes);
+void BuscaUsuario(Arvore *arvore, ListaFilmes *filmes);
 void ListarFilmes(Arvore *arvore, ListaFilmes *filmes);
-void BuscarFilme(Arvore *arvore, ListaFilmes *filmes);
+void BuscaFilme(Arvore *arvore, ListaFilmes *filmes);
 void ProduzirArquivo(Arvore *arvore, ListaFilmes *filmes);
 void DadosTecnicos(Arvore *arvore, ListaFilmes *filmes);
 void RemoverCadastro(Arvore *arvore, ListaFilmes *filmes);
@@ -46,11 +46,11 @@ int main (void){
         printf("| 7)  Dados tecnicos |         | 8) Remover um cadastro |\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~         ~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("\n");
-        printf("~~~~~~~~~~~~~~~~~~~~~~~~~ \n");
-        printf("| 9) Finalizar programa | \n");
-        printf("~~~~~~~~~~~~~~~~~~~~~~~~~ \n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~        ~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("| 9) Alterar cadastro |        | 10) Finalizar programa |\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~        ~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("\n");
-        printf("Digite a opção desejada: ");
+        printf("Digite a opcao desejada: ");
         scanf("%d", &opcao);
 
         if (opcao == 1){
@@ -60,13 +60,13 @@ int main (void){
         ListarUsuarios(&arvore, &filmes);
 
         } else if (opcao == 3){
-        BuscarUsuario(&arvore, &filmes);
+        BuscaUsuario(&arvore, &filmes);
 
         } else if (opcao == 4){
         ListarFilmes(&arvore, &filmes);
 
         } else if (opcao == 5){
-        BuscarFilme(&arvore, &filmes);
+        BuscaFilme(&arvore, &filmes);
 
         } else if (opcao == 6){
         ProduzirArquivo(&arvore, &filmes);
@@ -82,7 +82,7 @@ int main (void){
             break;
 
         } else {
-            printf("Opcaoo invalida! Por favor, digite uma das opcoes disponiveis!\n");
+            printf("Opcao invalida! Por favor, digite uma das opcoes disponiveis!\n");
         }
     } // Fim do loop
 
@@ -95,7 +95,7 @@ void CriarCadastro(Arvore *arvore, ListaFilmes *filmes){
     // Variáveis auxiliares
     char nome[100];
     char titulo[100];
-    int nusp, contador = 0; // Contador pois o usuário deve inserir no mínimo 1 filme
+    int nusp, contador = 0, flag = 0; // Contador pois o usuário deve inserir no mínimo 1 filme
 
     // Leitura do nome
     printf("Entre com seu nome: ");
@@ -105,16 +105,18 @@ void CriarCadastro(Arvore *arvore, ListaFilmes *filmes){
 
     // Leitura do número USP
     printf("Entre com seu numero USP: ");
-    scanf("%d\n\n", &nusp); // Lê o número USP (ID)
+    scanf("%d", &nusp); // Lê o número USP (ID)
+    while (getchar() != '\n'); // Limpar o buffer de entrada antes de usar fgets no loop
+    printf("\n");
 
-    Cadastrar(arvore, nome, nusp); // Cadastra o nome e o nusp do usuário, sem os filmes
+    Cadastrar(arvore, nome, nusp, &flag); // Cadastra o nome e o nusp do usuário, sem os filmes
+    if(flag == 1)
+        return;
 
     while(1) {
         printf("Digite 'sair' para finalizar\n");
         printf("Entre com seus filmes favoritos: ");
 
-        // Leitura dos filmes
-        getchar(); // Consumir o caractere de nova linha pendente no buffer
         fgets(titulo, sizeof(titulo), stdin);
         titulo[strcspn(titulo, "\n")] = '\0'; // Remove o '\n' do final da string 
 
@@ -124,27 +126,33 @@ void CriarCadastro(Arvore *arvore, ListaFilmes *filmes){
                 // Permite sair se ao menos um filme foi inserido
                 break;
             } else {
-                printf("Insira ao menos um filme antes de sair!\n");
+                printf("Insira ao menos um filme antes de sair!\n\n");
                 continue;
             }
         }
 
         // Insere o filme na lista geral e na lista do usuário
         CadastrarFilme(filmes, titulo);
-        InserirFilmeUsuario(arvore, nusp, titulo);
-        contador++; // Atualiza o contador
+        InserirFilmeUsuario(arvore, filmes, nusp, titulo, &contador);
+        
     }
-    printf("Usuario cadastrado com sucesso!\n");
+    printf("Usuario '%s' cadastrado com sucesso!\n", nome);
+    printf("Voce cadastrou estes %d filmes:\n", contador);
+    ImprimirFilmesUsuario(arvore, nusp);
+
 }
 
 // Função que mostra todos os usuários cadastrados
 void ListarUsuarios(Arvore *arvore, ListaFilmes *filmes){
-
+    ImprimirUsuarios(arvore);
 }
 
 //Função que busca um usuário específico 
-void BuscarUsuario(Arvore *arvore, ListaFilmes *filmes){
-
+void BuscaUsuario(Arvore *arvore, ListaFilmes *filmes){
+    int nusp;
+    printf("Insira o numero USP do usuario a buscar: ");
+    scanf("%d", &nusp);
+    EstaNaArvore(arvore, nusp);
 }
 
 // Função que mostra todos os filmes cadastrados
@@ -153,7 +161,7 @@ void ListarFilmes(Arvore *arvore, ListaFilmes *filmes){
 }
 
 // Função que busca um filme específico
-void BuscarFilme(Arvore *arvore, ListaFilmes *filmes){
+void BuscaFilme(Arvore *arvore, ListaFilmes *filmes){
 
 }
 

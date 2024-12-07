@@ -17,5 +17,12 @@ typedef struct {
 
 // Declarações
 void InicializarArvore(Arvore *A);
+void Cadastrar(Arvore *A, char *nome, int nusp, int *flag);
+No* BuscarUsuario(No* raiz, int nusp);
+void InserirFilmeUsuario(Arvore *arvore, ListaFilmes *filmes, int nusp, char *titulo, int *contador);
+void ImprimirFilmesUsuario(Arvore *A, int nusp);
+void ImprimirUsuarios(Arvore *A);
+void ImprimirAux(No *n);
+void EstaNaArvore(Arvore *A, int nusp);
 
 #endif
