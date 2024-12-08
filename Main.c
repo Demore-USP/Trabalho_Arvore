@@ -28,29 +28,29 @@ int main (void){
     while(opcao != 10){
         // Tela de opções do usuário
         printf("\n");
-        printf("      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        printf("      |          Escolha uma opcao abaixo:      |\n");
-        printf("      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("        |        Escolha uma opcao abaixo:        |\n");
+        printf("        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("\n\n");
-        printf("~~~~~~~~~~~~~~~~~~~~~~~~           ~~~~~~~~~~~~~~~~~~~~~~\n");
-        printf("| 1) Criar um cadastro |           | 2) Listar usuarios |\n");
-        printf("~~~~~~~~~~~~~~~~~~~~~~~~           ~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("| 1)   Criar um Cadastro   |   | 2)    Listar Usuarios    |\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("\n");
-        printf("~~~~~~~~~~~~~~~~~~~~~                ~~~~~~~~~~~~~~~~~~~~\n");
-        printf("| 3) Buscar usuario |                | 4) Listar filmes |\n");
-        printf("~~~~~~~~~~~~~~~~~~~~~                ~~~~~~~~~~~~~~~~~~~~\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("| 3)    Buscar Usuario     |   | 4)     Listar Filmes     |\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("\n");
-        printf("~~~~~~~~~~~~~~~~~~~~         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        printf("| 5)  Buscar filme |         | 6) Produzir arquivo .txt |\n");
-        printf("~~~~~~~~~~~~~~~~~~~~         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("| 5)     Buscar Filme      |   | 6) Produzir Arquivo .txt |\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("\n");
-        printf("~~~~~~~~~~~~~~~~~~~~~~         ~~~~~~~~~~~~~~~~~~~~~~~~~~\n"); 
-        printf("| 7)  Dados tecnicos |         | 8) Remover um cadastro |\n");
-        printf("~~~~~~~~~~~~~~~~~~~~~~         ~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("| 7)    Dados Tecnicos     |   | 8)  Remover um Cadastro  |\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("\n");
-        printf("~~~~~~~~~~~~~~~~~~~~~~~        ~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        printf("| 9) Adicionar filme  |        | 10) Finalizar programa |\n");
-        printf("~~~~~~~~~~~~~~~~~~~~~~~        ~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("| 9)    Adicionar Filme    |   | 10)  Finalizar Programa  |\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("\n");
         printf("Digite a opcao desejada: ");
         scanf("%d", &opcao);
@@ -200,10 +200,10 @@ void DadosTecnicos(Arvore *arvore, ListaFilmes *filmes){
     printf("Maior diferenca entre alturas: %d\n", MaiorDiferenca(arvore));
 }
 
-// Função que remove um usuário da árvore 
+// Função que remove um usuário da árvore através do número USP
 void RemoverCadastro(Arvore *arvore, ListaFilmes *filmes){
     int nusp;
-    printf("Quem deseja remover: ");
+    printf("Entre com o numero USP do usuario que deseja remover: ");
     scanf("%d", &nusp);
     Remover(arvore, nusp);
     printf("Usuario removido com sucesso!");
